@@ -387,6 +387,7 @@ def init_database(database_path: str = None):
 def get_session(database_path: str = None):
     """
     Get a database session
+    Automatically creates tables if database doesn't exist
 
     Args:
         database_path: Path to SQLite database file (defaults to config setting)
@@ -397,9 +398,16 @@ def get_session(database_path: str = None):
     if database_path is None:
         database_path = DATABASE_PATH
 
+    # Create database directory if it doesn't exist
+    database_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Create engine
     engine = create_engine(
         f"sqlite:///{database_path}", echo=DATABASE_CONFIG.get("echo", False)
     )
+
+    # Auto-create tables if they don't exist
+    Base.metadata.create_all(engine)
 
     Session = sessionmaker(bind=engine)
     return Session()

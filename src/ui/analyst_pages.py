@@ -108,23 +108,44 @@ def show_data_validation_page():
     # Database statistics
     st.subheader(f"📊 {t('database_overview')}")
 
-    col1, col2, col3, col4 = st.columns(4)
+    try:
+        col1, col2, col3, col4 = st.columns(4)
 
-    with col1:
-        project_count = session.query(Project).count()
-        st.metric(t('total_projects'), project_count)
+        with col1:
+            project_count = session.query(Project).count()
+            st.metric(t('total_projects'), project_count)
 
-    with col2:
-        pricing_count = session.query(BasePricing).count()
-        st.metric(t('pricing_records'), pricing_count)
+        with col2:
+            pricing_count = session.query(BasePricing).count()
+            st.metric(t('pricing_records'), pricing_count)
 
-    with col3:
-        signal_count = session.query(DynamicSignal).count()
-        st.metric(t('sales_signals'), signal_count)
+        with col3:
+            signal_count = session.query(DynamicSignal).count()
+            st.metric(t('sales_signals'), signal_count)
 
-    with col4:
-        comp_count = session.query(CompetitorData).count()
-        st.metric(t('competitor_data'), comp_count)
+        with col4:
+            comp_count = session.query(CompetitorData).count()
+            st.metric(t('competitor_data'), comp_count)
+
+        # If database is empty, show info message
+        if project_count == 0:
+            st.info("""
+            📋 **База данных пустая**
+
+            Для начала работы:
+            1. Перейдите в раздел **"Импорт данных"**
+            2. Загрузите Excel файл с данными о проектах
+            3. Система автоматически импортирует и проверит данные
+            """)
+            return
+    except Exception as e:
+        st.error(f"❌ Ошибка при подключении к базе данных: {str(e)}")
+        st.info("""
+        📋 **Решение:**
+        - Перейдите в раздел **"Импорт данных"**
+        - Загрузите Excel файл для инициализации базы данных
+        """)
+        return
 
     # Data quality checks
     st.subheader(f"🔍 {t('data_quality_checks')}")
