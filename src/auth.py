@@ -5,6 +5,14 @@ Simple username/password authentication using st.secrets
 import streamlit as st
 import hashlib
 from typing import Optional
+from pathlib import Path
+import sys
+
+# Add project root to path for imports
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from config.translations import t
 
 
 def hash_password(password: str) -> str:
@@ -33,9 +41,9 @@ def check_password() -> bool:
         return True
 
     # Show login form
-    st.markdown("## 🔐 Dynamic Pricing Analytics System")
-    st.markdown("### Login Required")
-    st.markdown("Please enter your credentials to access the application.")
+    st.markdown(f"## 🔐 {t('app_name')}")
+    st.markdown(f"### {t('login_required')}")
+    st.markdown(t('login_prompt'))
 
     # Add some spacing
     st.markdown("")
@@ -45,25 +53,25 @@ def check_password() -> bool:
 
     with col2:
         with st.form("login_form"):
-            st.markdown("#### Enter Credentials")
+            st.markdown(f"#### {t('enter_credentials')}")
 
             username = st.text_input(
-                "Username",
+                t('username'),
                 key="login_username",
-                placeholder="Enter your username"
+                placeholder=t('enter_username')
             )
 
             password = st.text_input(
-                "Password",
+                t('password'),
                 type="password",
                 key="login_password",
-                placeholder="Enter your password"
+                placeholder=t('enter_password')
             )
 
             st.markdown("")  # Spacing
 
             submit = st.form_submit_button(
-                "🔓 Login",
+                f"🔓 {t('login')}",
                 use_container_width=True,
                 type="primary"
             )
@@ -75,15 +83,15 @@ def check_password() -> bool:
                     st.session_state.username = username
                     st.session_state.login_time = st.session_state.get("login_time", None)
 
-                    st.success("✅ Login successful! Redirecting...")
+                    st.success(f"✅ {t('login_success')}")
                     st.rerun()
                 else:
-                    st.error("❌ Incorrect username or password")
+                    st.error(f"❌ {t('login_error')}")
                     return False
 
     # Add footer
     st.markdown("---")
-    st.caption("🏢 Sensata Real Estate | Dynamic Pricing Analytics v1.0.0")
+    st.caption(f"🏢 {t('company')} | {t('app_name')} {t('version')} 1.0.0")
 
     return False
 
@@ -108,11 +116,11 @@ def verify_credentials(username: str, password: str) -> bool:
         return username == correct_username and password == correct_password
 
     except KeyError:
-        st.error("⚠️ Authentication configuration error. Please contact administrator.")
-        st.error("Make sure secrets.toml is configured correctly.")
+        st.error(f"⚠️ {t('auth_config_error')}")
+        st.error(t('check_secrets_config'))
         return False
     except Exception as e:
-        st.error(f"⚠️ Authentication error: {str(e)}")
+        st.error(f"⚠️ {t('auth_error')}: {str(e)}")
         return False
 
 
@@ -146,10 +154,10 @@ def show_logout_button():
 
         # Show logged-in user info
         if st.session_state.get("username"):
-            st.caption(f"👤 Logged in as: **{st.session_state.username}**")
+            st.caption(f"👤 {t('logged_in_as')}: **{st.session_state.username}**")
 
         # Logout button
-        if st.button("🔓 Logout", use_container_width=True, key="logout_button"):
+        if st.button(f"🔓 {t('logout')}", use_container_width=True, key="logout_button"):
             logout()
             st.rerun()
 
@@ -167,7 +175,7 @@ def require_authentication(func):
     """
     def wrapper(*args, **kwargs):
         if not st.session_state.get("authenticated", False):
-            st.warning("⚠️ Please login to access this feature")
+            st.warning(f"⚠️ {t('login_required_warning')}")
             st.stop()
         return func(*args, **kwargs)
     return wrapper
