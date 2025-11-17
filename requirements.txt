@@ -1,28 +1,25 @@
-# Core dependencies
-streamlit==1.31.0
-pandas==2.2.0
-numpy==1.26.3
-openpyxl==3.1.2
-sqlalchemy==2.0.25
+# ============================================================================
+# Production Dependencies for Streamlit Cloud
+# Compatible with Python 3.11 - 3.13
+# ============================================================================
+
+# Core Framework
+streamlit>=1.31.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0
+
+# Database (SQLAlchemy 2.0 with compatibility)
+sqlalchemy>=2.0.0,<2.1.0
+greenlet>=2.0.0
 
 # Visualization
-plotly==5.18.0
-altair==5.2.0
+plotly>=5.18.0
 
-# Machine Learning
-scikit-learn==1.4.0
-
-# Data validation
-pandera==0.18.0
+# Machine Learning / Analytics
+scikit-learn>=1.4.0
 
 # Utilities
-python-dateutil==2.8.2
-pytz==2024.1
-
-# Development tools
-pytest==8.0.0
-black==24.1.1
-flake8==7.0.0
-
-# Deployment (optional - for creating standalone executable)
-pyinstaller==6.3.0
+python-dateutil>=2.8.0
