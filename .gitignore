@@ -1,0 +1,91 @@
+# ============================================================================
+# CRITICAL: Streamlit Secrets - NEVER COMMIT THESE
+# ============================================================================
+.streamlit/secrets.toml
+.streamlit/config.toml
+
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ============================================================================
+# Database files (SQLite won't persist on Streamlit Cloud anyway)
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+data/pricing_system.db
+
+# Keep directory structure but ignore data files
+data/raw/*
+data/processed/*
+data/exports/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/exports/.gitkeep
+
+# ============================================================================
+# Logs
+# ============================================================================
+logs/*.log
+*.log
+logs/pricing_system.log
+
+# ============================================================================
+# IDE and Editor files
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# ============================================================================
+# Environment variables (if you use .env files)
+# ============================================================================
+.env
+.env.local
+.env.*.local
+
+# ============================================================================
+# Temporary files
+# ============================================================================
+*.tmp
+*.bak
+*.backup
+.cache/
